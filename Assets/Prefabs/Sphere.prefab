@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 2516084293952428904}
   - component: {fileID: 2516084293952428905}
   - component: {fileID: 2516084293952428910}
-  - component: {fileID: 2516084293952428906}
+  - component: {fileID: 9034032370744696310}
   - component: {fileID: 4904193227127614065}
   - component: {fileID: 7128736523584033452}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Sphere
   m_TagString: Cube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,8 +30,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2516084293952428909}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.681, y: 1.5, z: 0.58}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -44,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2516084293952428909}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &2516084293952428905
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -103,8 +103,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &2516084293952428906
-BoxCollider:
+--- !u!135 &9034032370744696310
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -114,7 +114,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4904193227127614065
 MonoBehaviour:
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
   m_Colliders:
-  - {fileID: 2516084293952428906}
+  - {fileID: 9034032370744696310}
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295

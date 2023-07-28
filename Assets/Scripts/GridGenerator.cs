@@ -26,7 +26,6 @@ public class GridGenerator : MonoBehaviour
                     var cube = Instantiate(_prefab, position, Quaternion.identity, transform);
                     var renderer = cube.GetComponent<MeshRenderer>();
                     renderer.material.color = new Color(1f - (1f / _gridX) * i, 1f - (1f / _gridY) * j, 1f - (1f / _gridZ) * k);
-                    print(renderer.material.color);
                 }
             }
         }
