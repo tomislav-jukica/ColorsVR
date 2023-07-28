@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class ColorCube : MonoBehaviour
+public class ColorVoxel : MonoBehaviour
 {
     private MeshRenderer _renderer;
 
@@ -16,8 +16,8 @@ public class ColorCube : MonoBehaviour
     }
 
     private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Player"))
+    {   
+        if (other.CompareTag("RightHand"))
         {
             _renderer.enabled = false;
         }
@@ -25,7 +25,7 @@ public class ColorCube : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("RightHand"))
         {
             _renderer.enabled = true;
         }
