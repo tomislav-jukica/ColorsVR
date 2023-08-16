@@ -12,7 +12,6 @@ public class GridGenerator : MonoBehaviour
     private void Start()
     {
         SetGridPosition();
-        GenerateGrid();
     }
 
     private void SetGridPosition()
@@ -20,7 +19,7 @@ public class GridGenerator : MonoBehaviour
         transform.localPosition = new Vector3(-_gridX * _spaceBetween / 2, -_gridY * _spaceBetween / 2, -_gridZ * _spaceBetween / 2);
     }
 
-    private void GenerateGrid()
+    public void GenerateGrid()
     {
         for (int i = 0; i < _gridX; i++)
         {

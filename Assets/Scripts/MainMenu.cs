@@ -6,14 +6,16 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] private GridGenerator _gridGenerator;
+
+    [Header("Objects")]
     [SerializeField] private Toggle _maleToggle;
     [SerializeField] private Toggle _femaleToggle;
     [SerializeField] private Toggle _otherToggle;
-
     [SerializeField] private TextMeshProUGUI _ageText;
 
     private int _sexSelected = -1;
-    private int _age = -1;
+    private int _age = 0;
 
     #region Sex
     public void OnMaleSelected(bool value)
@@ -54,4 +56,21 @@ public class MainMenu : MonoBehaviour
         _age = (int)age;
     }
     #endregion
+
+    public void OnConfirm()
+    {
+        if (Validate())
+        {
+            _gridGenerator.GenerateGrid();
+            gameObject.SetActive(false);
+        }
+    }
+
+    private bool Validate()
+    {
+        if (!_maleToggle.isOn && !_femaleToggle.isOn && !_otherToggle.isOn) return false;
+        if (_age <= 0) return false;
+
+        return true;
+    }
 }
