@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,9 +14,13 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Toggle _femaleToggle;
     [SerializeField] private Toggle _otherToggle;
     [SerializeField] private TextMeshProUGUI _ageText;
+    [SerializeField] private GameObject _educationPicker;
+    [SerializeField] private TMP_Dropdown _educationDropdown;
 
     private int _sexSelected = -1;
     private int _age = 0;
+    private int _workStatus = 0;
+    private int _education = -1;
 
     #region Sex
     public void OnMaleSelected(bool value)
@@ -56,6 +61,27 @@ public class MainMenu : MonoBehaviour
         _age = (int)age;
     }
     #endregion
+
+    public void OnWorkStatusChanged(int value)
+    {
+        _workStatus = value; //0-ucenik, 1-student, 2-zaposlen, 3-nezaposlen
+        if (value == 2 || value == 3)
+        {
+            _educationPicker.SetActive(true);
+            _education = 0;
+        }
+        else
+        {
+            _educationPicker.SetActive(false);
+            _educationDropdown.SetValueWithoutNotify(0);
+            _education = -1;
+        }
+    }
+
+    public void OnEducationChanged(int value)
+    {
+        _education = value;
+    }
 
     public void OnConfirm()
     {
