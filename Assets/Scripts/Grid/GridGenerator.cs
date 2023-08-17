@@ -11,7 +11,7 @@ public class GridGenerator : MonoBehaviour
 
     private void Start()
     {
-        SetGridPosition();
+        SetGridPosition();        
     }
 
     private void SetGridPosition()
