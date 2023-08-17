@@ -12,7 +12,7 @@ public class ColorVoxel : MonoBehaviour
 
     public void SelectEnter(SelectEnterEventArgs args)
     {
-        print("ye");
+        print("Ye");
     }
 
     private void OnTriggerStay(Collider other)

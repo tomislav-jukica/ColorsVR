@@ -168,7 +168,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7128736523584033452}
-        m_TargetAssemblyTypeName: ColorCube, Assembly-CSharp
+        m_TargetAssemblyTypeName: ColorVoxel, Assembly-CSharp
         m_MethodName: SelectEnter
         m_Mode: 0
         m_Arguments:

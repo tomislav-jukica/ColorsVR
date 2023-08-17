@@ -69,25 +69,24 @@ public class ButtonController : MonoBehaviour
     {
         InputDevices.GetDevicesWithCharacteristics(deviceRole, inputDevices);
 
-        for (int i = 0; i < inputDevices.Count; i++)
+        int i = 1; //This affects only the right controller
+        if (inputDevices[i].TryGetFeatureValue(inputFeature,
+            out inputValue) && inputValue)
         {
-            if (inputDevices[i].TryGetFeatureValue(inputFeature,
-                out inputValue) && inputValue)
+            // if start pressing, trigger event
+            if (!IsPressed)
             {
-                // if start pressing, trigger event
-                if (!IsPressed)
-                {
-                    IsPressed = true;
-                    OnPress.Invoke();
-                }
-            }
-
-            // check for button release
-            else if (IsPressed)
-            {
-                IsPressed = false;
-                OnRelease.Invoke();
+                IsPressed = true;
+                OnPress.Invoke();
             }
         }
+
+        // check for button release
+        else if (IsPressed)
+        {
+            IsPressed = false;
+            OnRelease.Invoke();
+        }
+
     }
 }

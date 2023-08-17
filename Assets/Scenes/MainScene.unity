@@ -7949,7 +7949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deviceRole: 64
-  button: 4
+  button: 0
   OnPress:
     m_PersistentCalls:
       m_Calls:
@@ -9916,6 +9916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3da6890a7ddb2e54f87ccb98601130f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gridGenerator: {fileID: 1179686315}
   _colorButtonPrefab: {fileID: 7149796930094780022, guid: 9b0e3337bef9a3e44b6d022d1cb6aca7,
     type: 3}
   _colorsParentObject: {fileID: 1046580427}
@@ -11662,6 +11663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3da6890a7ddb2e54f87ccb98601130f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gridGenerator: {fileID: 0}
   _colorButtonPrefab: {fileID: 0}
   _colorsParentObject: {fileID: 0}
 --- !u!64 &1866960259
@@ -19085,7 +19087,6 @@ GameObject:
   - component: {fileID: 9014170785329995299}
   - component: {fileID: 5045211222453718640}
   - component: {fileID: 2429146837569857640}
-  - component: {fileID: 9014170785329995304}
   - component: {fileID: 9014170785329995305}
   m_Layer: 0
   m_Name: RightHand (Teleport Locomotion)
@@ -19094,38 +19095,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &9014170785329995304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9014170785329995303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfa60fd4b3e054b4d9eb1ae16f2f16e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deviceRole: 512
-  button: 7
-  OnPress:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: OnRightControllerPrimaryButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnRelease:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!136 &9014170785329995305
 CapsuleCollider:
   m_ObjectHideFlags: 0
