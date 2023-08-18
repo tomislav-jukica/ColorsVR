@@ -34,5 +34,22 @@ public class LanguageSlider : MonoBehaviour
 
 public enum Language
 {
-    HRVATSKI
+    HRVATSKI,
+    CAKAVSKI,
+    KAJKAVSKI,
+    ENGLESKI,
+    ALBANSKI,
+    BOŠNJAČKI,
+    CRNOGORSKI,
+    FRANCUSKI,
+    MADARSKI,
+    MAKEDONSKI,
+    NJEMACKI,
+    ROMSKI,
+    RUSKI,
+    SLOVENSKI,
+    SRPSKI,
+    TALIJANSKI,
+    UKRAJINSKI,
+    OSTALO
 }

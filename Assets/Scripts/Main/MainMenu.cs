@@ -26,6 +26,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject _page2;
     [SerializeField] private GameObject _page3;
     [SerializeField] private GameObject _page4;
+    [SerializeField] private GameObject _page5;
+    [SerializeField] private GameObject _page6;
 
     private int _sexSelected = -1;
     private int _age = 0;
@@ -37,8 +39,8 @@ public class MainMenu : MonoBehaviour
     private int _workScreenTime = 0;
     private int _soloScreenTime = 0;
     private int _nature = 0;
-
-
+    private int _location = 0;
+    private int _population = 0;
 
     private int _page = 1;
 
@@ -158,7 +160,7 @@ public class MainMenu : MonoBehaviour
     public void OnWorkScreenTimeChanged(float value)
     {
         _workScreenTime = (int)value;
-        switch((int)value)
+        switch ((int)value)
         {
             case 0:
                 _workScreenDescription.text = "Nikad";
@@ -192,6 +194,19 @@ public class MainMenu : MonoBehaviour
         _nature = value;
     }
     #endregion
+
+    #region Page 5
+    public void OnLocationChanged(int value)
+    {
+        _location = value;
+    }
+
+    public void OnPopulationChanged(int value)
+    {
+        _population = value;
+    }
+    #endregion
+
     public void OnConfirm()
     {
         if (!Validate()) return;
@@ -215,6 +230,18 @@ public class MainMenu : MonoBehaviour
             _page++;
         }
         else if (_page == 4)
+        {
+            _page4.SetActive(false);
+            _page5.SetActive(true);
+            _page++;
+        }
+        else if (_page == 5)
+        {
+            _page5.SetActive(false);
+            _page6.SetActive(true);
+            _page++;
+        }
+        else if (_page == 6)
         {
             _gridGenerator.GenerateGrid();
             gameObject.SetActive(false);
