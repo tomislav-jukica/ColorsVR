@@ -7,6 +7,7 @@ public class GridController : MonoBehaviour
 {
     public ActionBasedController rightHand;
     [SerializeField] private float _maxSpeed;
+    public bool CanMove = true;
 
     private Vector3 _currentRotation;
     private Vector3 _lastRotation;
@@ -16,7 +17,7 @@ public class GridController : MonoBehaviour
     Vector3 offset;
     private void Update()
     {
-        if(_rotating)
+        if(_rotating && CanMove)
         {
             if (!_isLastRotationSet)
             {
@@ -26,9 +27,10 @@ public class GridController : MonoBehaviour
 
             if (_currentRotation != rightHand.transform.eulerAngles)
             {
-                transform.eulerAngles -= Vector3.ClampMagnitude((rightHand.transform.eulerAngles - offset), _maxSpeed);
-                //_currentRotation = rightHand.transform.eulerAngles;
+                transform.eulerAngles -= rightHand.transform.eulerAngles - offset;
+                _currentRotation = rightHand.transform.eulerAngles;
             }
+
             offset = rightHand.transform.eulerAngles;
         }
     }
