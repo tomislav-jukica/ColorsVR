@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private GridGenerator _gridGenerator;
+    private DatabaseManager _databaseManager;
 
     [Header("Page 1")]
     [SerializeField] private Toggle _maleToggle;
@@ -257,5 +258,10 @@ public class MainMenu : MonoBehaviour
         }
 
         return true;
+    }
+
+    public void SendToDatabase(ColorVoxel selectedVoxel, List<ColorVoxel> voxelRanges)
+    {
+        _databaseManager.SendData();
     }
 }

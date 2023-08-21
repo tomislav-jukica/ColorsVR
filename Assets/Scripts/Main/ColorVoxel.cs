@@ -16,7 +16,7 @@ public class ColorVoxel : MonoBehaviour
 
     private void Update()
     {
-        if(IsSelected)
+        if(IsSelected && !_generator.RangesPicked)
         {
             _renderer.enabled = false;
         }
@@ -56,7 +56,7 @@ public class ColorVoxel : MonoBehaviour
     }
 
     public void ToggleVisibility(bool isVisible)
-    {
+    {        
         _renderer.enabled = isVisible;
     }
 

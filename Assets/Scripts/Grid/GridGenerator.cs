@@ -12,6 +12,7 @@ public class GridGenerator : MonoBehaviour
     [SerializeField] private GameObject _prefab;
     [SerializeField] private ColorConfirmUI _colorConfirmUI;
     [SerializeField] private Transform _rightHand;
+    [SerializeField] private MainMenu _mainMenu;
 
     private List<GameObject> _voxels = new();
     private ColorVoxel _selectedVoxel;
@@ -24,6 +25,8 @@ public class GridGenerator : MonoBehaviour
     public ColorVoxel ClosestVoxel { get => _closestVoxel; }
 
     private bool _onCooldown = false;
+
+    public bool RangesPicked = false;
 
     private void Start()
     {
@@ -77,7 +80,19 @@ public class GridGenerator : MonoBehaviour
             if (_voxelRanges.Count == 6)
             {
                 _colorConfirmUI.gameObject.SetActive(true);
-                ToggleCubeVisibilty(false);
+                for (int i = 0; i < _voxels.Count; i++)
+                {
+                    var success = _voxelRanges.Find(x => x.gameObject == _voxels[i]);
+                    if (success == null)
+                    {
+                        _voxels[i].SetActive(false);
+                    }
+                    else
+                    {
+                        success.ToggleVisibility(true);
+                    }
+                }
+                RangesPicked = true;
                 _stage = 2;
                 _colorConfirmUI.ShowUI(_stage);
             }
@@ -104,6 +119,23 @@ public class GridGenerator : MonoBehaviour
         _colorConfirmUI.gameObject.SetActive(false);
     }
 
+    public void ConfirmRange()
+    {
+        _mainMenu.SendToDatabase(_selectedVoxel, _voxelRanges);
+    }
+
+    public void CancelRange()
+    {
+        foreach (var voxel in _voxelRanges)
+        {
+            voxel.IsSelected = false;
+        }
+        _stage = 1;
+        _voxelRanges.Clear();
+        RangesPicked = false;
+        ToggleCubeVisibilty(true);
+    }
+
     public void ToggleCubeVisibilty(bool isVisible)
     {
         for (int i = 0; i < _voxels.Count; i++)
@@ -125,7 +157,7 @@ public class GridGenerator : MonoBehaviour
     {
         if (_voxelsInRange.Contains(voxel))
         {
-            _voxelsInRange.Remove(voxel);            
+            _voxelsInRange.Remove(voxel);
         }
         FindClosestVoxel();
     }
@@ -137,10 +169,10 @@ public class GridGenerator : MonoBehaviour
         {
             var voxel = _voxelsInRange[i];
             var distance = Vector3.Distance(voxel.transform.position, _rightHand.position);
-            if ( distance < minDistance)
+            if (distance < minDistance)
             {
                 minDistance = distance;
-                _closestVoxel = voxel;                
+                _closestVoxel = voxel;
             }
             voxel.transform.localScale = new(0.05f, 0.05f, 0.05f);
         }

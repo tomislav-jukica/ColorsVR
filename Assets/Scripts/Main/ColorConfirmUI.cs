@@ -39,12 +39,12 @@ public class ColorConfirmUI : MonoBehaviour
 
     public void OnConfirmRange()
     {
-
+        _gridGenerator.ConfirmRange();
     }
 
     public void OnCancelRange()
     {
-
+        _gridGenerator.CancelRange();
     }
 
     public void ShowUI(int stage)
