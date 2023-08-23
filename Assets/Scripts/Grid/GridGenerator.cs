@@ -42,6 +42,7 @@ public class GridGenerator : MonoBehaviour
 
     public void GenerateGrid()
     {
+        _mainMenu.CreateUser();
         for (int i = 0; i < _gridX; i++)
         {
             for (int j = 0; j < _gridY; j++)

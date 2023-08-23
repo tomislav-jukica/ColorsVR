@@ -20,17 +20,17 @@ namespace ColorAPI
             Population = population;
         }
 
-        public long Id { get; set; }
-        public long Sex { get; set; }
-        public long Age { get; set; }
-        public long WorkStatus { get; set; }
-        public long Education { get; set; }
-        public long Profession { get; set; }
-        public long Eyesight { get; set; }
-        public long WorkScreen { get; set; }
-        public long SoloScreen { get; set; }
-        public long Nature { get; set; }
-        public long Location { get; set; }
-        public long Population { get; set; }
+        public long Id;
+        public long Sex;
+        public long Age;
+        public long WorkStatus;
+        public long Education;
+        public long Profession;
+        public long Eyesight;
+        public long WorkScreen;
+        public long SoloScreen;
+        public long Nature;
+        public long Location;
+        public long Population;
     }
 }

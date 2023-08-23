@@ -5,16 +5,16 @@ namespace ColorAPI
     [Serializable]
     public class Language
     {
-        public Language(long value, long speak, User user)
+        public Language(long value, long speak, long userId)
         {
             Value = value;
             Speak = speak;
-            User = user;
+            UserId = userId;
         }
 
-        public long Id { get; set; }
-        public long Value { get; set; }
-        public long Speak { get; set; }
-        public User User { get; set; }
+        public long Id;
+        public long Value;
+        public long Speak;
+        public long UserId; //Foreign key
     }
 }

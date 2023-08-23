@@ -5,16 +5,16 @@ namespace ColorAPI
     [Serializable]
     public class PickedColor
     {
-        public PickedColor(string targetColor, string selectedColor, User user)
+        public PickedColor(string targetColor, string selectedColor, long userId)
         {
             TargetColor = targetColor;
             SelectedColor = selectedColor;
-            User = user;
+            UserId = userId;
         }
 
-        public long Id { get; set; }
-        public string TargetColor { get; set; }
-        public string SelectedColor { get; set; }
-        public User User { get; set; }
+        public long Id;
+        public string TargetColor;
+        public string SelectedColor;
+        public long UserId;//Foreign key
     }
 }

@@ -35,9 +35,9 @@ public class MainMenu : MonoBehaviour
     private int _sexSelected = -1;
     private int _age = 0;
     private int _workStatus = 0;
-    private int _education = -1;
+    private int _education = 0;
     private int _work = 0;
-    private Dictionary<int, int> _languages;
+    private Dictionary<int, int> _languages = new();
     private int _health = 0;
     private int _workScreenTime = 0;
     private int _soloScreenTime = 0;
@@ -48,6 +48,11 @@ public class MainMenu : MonoBehaviour
     private int _page = 1;
 
     private User _user;
+
+    private void Awake()
+    {
+        _databaseManager = GetComponent<DatabaseManager>();
+    }
 
     #region Page 1
     public void OnMaleSelected(bool value)
@@ -246,12 +251,12 @@ public class MainMenu : MonoBehaviour
             _page6.SetActive(true);
             _page++;
         }
-        else if (_page == 6)
-        {
-            CreateUser();
-            _gridGenerator.GenerateGrid();
-            gameObject.SetActive(false);
-        }
+        //else if (_page == 6)
+        //{
+        //    CreateUser();
+        //    _gridGenerator.GenerateGrid();
+        //    gameObject.SetActive(false);
+        //}
     }
 
     private bool Validate()
@@ -270,23 +275,23 @@ public class MainMenu : MonoBehaviour
         List<ColorAPI.Language> languages = new List<ColorAPI.Language>();
         foreach (KeyValuePair<int, int> language in _languages)
         {
-            ColorAPI.Language newLanguage = new ColorAPI.Language(language.Key, language.Value, _user);
+            ColorAPI.Language newLanguage = new ColorAPI.Language(language.Key, language.Value, _user.Id);
             languages.Add(newLanguage);
         }
 
-        PickedColor pickedColor = new PickedColor(_gridGenerator.TargetColor.Value, selectedVoxel.GetColor(), _user);
+        PickedColor pickedColor = new PickedColor(_gridGenerator.TargetColor.Value, selectedVoxel.GetColor(), _user.Id);
        
         List<ColorRange> colorRanges = new List<ColorRange>();
         foreach (var voxel in voxelRanges)
         {
-            ColorRange colorRange = new ColorRange(voxel.GetColor(), pickedColor);
+            ColorRange colorRange = new ColorRange(voxel.GetColor(), pickedColor.Id);
             colorRanges.Add(colorRange);
         }
        
         _databaseManager.SendData(_user, languages, pickedColor, colorRanges);
     }
 
-    private void CreateUser()
+    public void CreateUser()
     {
         _user = new User(_sexSelected, _age, _workStatus, _education, _work, _health, _workScreenTime, _soloScreenTime, _nature, _location, _population);
     }

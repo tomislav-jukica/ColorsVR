@@ -5,14 +5,14 @@ namespace ColorAPI
     [Serializable]
     public class ColorRange
     {
-        public ColorRange(string value, PickedColor mainColor)
+        public ColorRange(string value, long mainColorId)
         {
             Value = value;
-            MainColor = mainColor;
+            MainColorId = mainColorId;
         }
 
-        public long Id { get; set; }
-        public string Value { get; set; }
-        public PickedColor MainColor { get; set; }
+        public long Id;
+        public string Value;
+        public long MainColorId; //Foreign key
     }
 }
