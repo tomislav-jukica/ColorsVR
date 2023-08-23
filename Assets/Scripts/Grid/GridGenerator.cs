@@ -28,6 +28,8 @@ public class GridGenerator : MonoBehaviour
 
     public bool RangesPicked = false;
 
+    public ColorAPI.Color TargetColor;
+
     private void Start()
     {
         SetGridPosition();

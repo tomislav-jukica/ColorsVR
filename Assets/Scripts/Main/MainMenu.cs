@@ -1,6 +1,8 @@
-﻿using System;
+﻿using ColorAPI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,6 +46,8 @@ public class MainMenu : MonoBehaviour
     private int _population = 0;
 
     private int _page = 1;
+
+    private User _user;
 
     #region Page 1
     public void OnMaleSelected(bool value)
@@ -244,6 +248,7 @@ public class MainMenu : MonoBehaviour
         }
         else if (_page == 6)
         {
+            CreateUser();
             _gridGenerator.GenerateGrid();
             gameObject.SetActive(false);
         }
@@ -262,6 +267,27 @@ public class MainMenu : MonoBehaviour
 
     public void SendToDatabase(ColorVoxel selectedVoxel, List<ColorVoxel> voxelRanges)
     {
-        _databaseManager.SendData();
+        List<ColorAPI.Language> languages = new List<ColorAPI.Language>();
+        foreach (KeyValuePair<int, int> language in _languages)
+        {
+            ColorAPI.Language newLanguage = new ColorAPI.Language(language.Key, language.Value, _user);
+            languages.Add(newLanguage);
+        }
+
+        PickedColor pickedColor = new PickedColor(_gridGenerator.TargetColor.Value, selectedVoxel.GetColor(), _user);
+       
+        List<ColorRange> colorRanges = new List<ColorRange>();
+        foreach (var voxel in voxelRanges)
+        {
+            ColorRange colorRange = new ColorRange(voxel.GetColor(), pickedColor);
+            colorRanges.Add(colorRange);
+        }
+       
+        _databaseManager.SendData(_user, languages, pickedColor, colorRanges);
+    }
+
+    private void CreateUser()
+    {
+        _user = new User(_sexSelected, _age, _workStatus, _education, _work, _health, _workScreenTime, _soloScreenTime, _nature, _location, _population);
     }
 }

@@ -21,6 +21,7 @@ public class ColorPickerUI : MonoBehaviour
     public void PickColor(ColorAPI.Color color)
     {
         _selectedColor = color;
+        _gridGenerator.TargetColor = color;
         _gridGenerator.GenerateGrid();
         transform.parent.gameObject.SetActive(false);
         

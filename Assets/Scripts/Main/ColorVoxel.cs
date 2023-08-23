@@ -60,4 +60,8 @@ public class ColorVoxel : MonoBehaviour
         _renderer.enabled = isVisible;
     }
 
+    public string GetColor()
+    {
+        return ColorUtility.ToHtmlStringRGB(_renderer.material.color);
+    }
 }

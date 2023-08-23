@@ -5,8 +5,8 @@ namespace ColorAPI
     [Serializable]
     public class Color
     {
-        public long id;
-        public string name;
-        public string value;
+        public long Id;
+        public string Name;
+        public string Value;
     }
 }

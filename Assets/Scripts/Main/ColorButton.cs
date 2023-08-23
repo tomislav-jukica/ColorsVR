@@ -17,7 +17,7 @@ public class ColorButton : MonoBehaviour
     public void SetColor(ColorAPI.Color color)
     {
         _color = color;
-        _buttonText.text = _color.name;
+        _buttonText.text = _color.Name;
     }
 
     public void OnClick()
