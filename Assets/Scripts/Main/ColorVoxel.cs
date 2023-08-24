@@ -7,6 +7,7 @@ public class ColorVoxel : MonoBehaviour
     private GridGenerator _generator;
 
     public bool IsSelected = false;
+    public Vector3 Position = Vector3.zero;
 
     private void Awake()
     {

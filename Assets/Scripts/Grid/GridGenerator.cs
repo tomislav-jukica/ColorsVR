@@ -14,7 +14,7 @@ public class GridGenerator : MonoBehaviour
     [SerializeField] private Transform _rightHand;
     [SerializeField] private MainMenu _mainMenu;
 
-    private List<GameObject> _voxels = new();
+    private List<ColorVoxel> _voxels = new();
     private ColorVoxel _selectedVoxel;
     private List<ColorVoxel> _voxelRanges = new();
     private int _stage = 0;
@@ -53,7 +53,9 @@ public class GridGenerator : MonoBehaviour
                     var cube = Instantiate(_prefab, position, Quaternion.identity, transform);
                     var renderer = cube.GetComponent<MeshRenderer>();
                     renderer.material.color = new Color(1f - (1f / _gridX) * i, 1f - (1f / _gridY) * j, 1f - (1f / _gridZ) * k);
-                    _voxels.Add(cube);
+                    ColorVoxel colorVoxel = cube.GetComponent<ColorVoxel>();
+                    colorVoxel.Position = new(i, j, k);
+                    _voxels.Add(colorVoxel);
                 }
             }
         }
@@ -61,14 +63,14 @@ public class GridGenerator : MonoBehaviour
 
     public void OnVoxelSelected(ColorVoxel voxel)
     {
-        if (_stage == 0)
+        if (_stage == 0 && _selectedVoxel == null)
         {
             _selectedVoxel = _closestVoxel;
             for (int i = 0; i < _voxels.Count; i++)
             {
                 if (_voxels[i] != _selectedVoxel.gameObject)
                 {
-                    _voxels[i].SetActive(false);
+                    _voxels[i].gameObject.SetActive(false);
                 }
             }
             _selectedVoxel.ToggleVisibility(true);
@@ -80,7 +82,7 @@ public class GridGenerator : MonoBehaviour
             //_closestVoxel.gameObject.SetActive(false);
             _voxelRanges.Add(_closestVoxel);
             StartCoroutine(CooldownCoroutine());
-            if (_voxelRanges.Count == 6)
+            if (_voxelRanges.Count == 4)
             {
                 _colorConfirmUI.gameObject.SetActive(true);
                 for (int i = 0; i < _voxels.Count; i++)
@@ -88,7 +90,7 @@ public class GridGenerator : MonoBehaviour
                     var success = _voxelRanges.Find(x => x.gameObject == _voxels[i]);
                     if (success == null)
                     {
-                        _voxels[i].SetActive(false);
+                        _voxels[i].gameObject.SetActive(false);
                     }
                     else
                     {
@@ -139,11 +141,25 @@ public class GridGenerator : MonoBehaviour
         ToggleCubeVisibilty(true);
     }
 
-    public void ToggleCubeVisibilty(bool isVisible)
+    public void ToggleCubeVisibilty(bool isVisible, bool stage2 = false)
     {
-        for (int i = 0; i < _voxels.Count; i++)
+        if (stage2)
         {
-            _voxels[i].SetActive(isVisible);
+            for (int i = 0; i < _voxels.Count; i++)
+            {
+                if ((_voxels[i].Position.x == _selectedVoxel.Position.x && _voxels[i].Position.z == _selectedVoxel.Position.z) || 
+                    (_voxels[i].Position.y == _selectedVoxel.Position.y && _voxels[i].Position.z == _selectedVoxel.Position.z))
+                {
+                    _voxels[i].gameObject.SetActive(isVisible);
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < _voxels.Count; i++)
+            {
+                _voxels[i].gameObject.SetActive(isVisible);
+            }
         }
     }
 

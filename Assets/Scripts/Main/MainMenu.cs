@@ -25,12 +25,16 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _workScreenDescription;
     [SerializeField] private TextMeshProUGUI _soloScreenDescription;
     [Header("Pages")]
+    [SerializeField] private GameObject _page0;
     [SerializeField] private GameObject _page1;
     [SerializeField] private GameObject _page2;
     [SerializeField] private GameObject _page3;
     [SerializeField] private GameObject _page4;
     [SerializeField] private GameObject _page5;
     [SerializeField] private GameObject _page6;
+    [SerializeField] private GameObject _specialName;
+    [SerializeField] private GameObject _howToUse;
+    [SerializeField] private GameObject _aboutUs;
 
     private int _sexSelected = -1;
     private int _age = 0;
@@ -45,7 +49,7 @@ public class MainMenu : MonoBehaviour
     private int _location = 0;
     private int _population = 0;
 
-    private int _page = 1;
+    private int _page = 0;
 
     private User _user;
 
@@ -219,9 +223,24 @@ public class MainMenu : MonoBehaviour
 
     public void OnConfirm()
     {
+        if(_specialName.activeSelf || _aboutUs.activeSelf || _howToUse.activeSelf)
+        {
+            _specialName.SetActive(false);
+            _aboutUs.SetActive(false);
+            _howToUse.SetActive(false);
+            _page6.SetActive(true);
+            return;
+        }
+
         if (!Validate()) return;
 
-        if (_page == 1)
+        if(_page == 0)
+        {
+            _page0.SetActive(false);
+            _page1.SetActive(true);
+            _page++;
+        }
+        else if (_page == 1)
         {
             _page1.SetActive(false);
             _page2.SetActive(true);
@@ -294,5 +313,23 @@ public class MainMenu : MonoBehaviour
     public void CreateUser()
     {
         _user = new User(_sexSelected, _age, _workStatus, _education, _work, _health, _workScreenTime, _soloScreenTime, _nature, _location, _population);
+    }
+
+    public void ShowAboutUs()
+    {
+        _aboutUs.SetActive(true);
+        _page6.SetActive(false);
+    }
+
+    public void ShowHowToUse()
+    {
+        _howToUse.SetActive(true);
+        _page6.SetActive(false);
+    }
+
+    public void ShowSpecialName()
+    {
+        _specialName.SetActive(true);
+        _page6.SetActive(false);
     }
 }
