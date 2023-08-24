@@ -62,6 +62,7 @@ public class ColorVoxel : MonoBehaviour
 
     public string GetColor()
     {
-        return ColorUtility.ToHtmlStringRGB(_renderer.material.color);
+        var color = ColorUtility.ToHtmlStringRGB(_renderer.material.color);
+        return color;
     }
 }

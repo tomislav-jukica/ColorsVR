@@ -33,6 +33,7 @@ public class DatabaseManager : MonoBehaviour
         var id = int.Parse(responseString);
         
         PostLanguages(_languages, id);
+        PostPickedColor(_pickedColor, id);        
     }
 
     private async void PostLanguages(List<ColorAPI.Language> languages, int userId)
@@ -44,28 +45,30 @@ public class DatabaseManager : MonoBehaviour
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("https://localhost:7052/api/language", content);
             var responseString = await response.Content.ReadAsStringAsync();
-            print(responseString);
         }
     }
 
-    private async void PostPickedColor(PickedColor pickedColor)
+    private async void PostPickedColor(PickedColor pickedColor, int userId)
     {
+        pickedColor.UserId = userId;
         var json = JsonUtility.ToJson(pickedColor);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await _client.PostAsync("https://localhost:7052/api/picked_color", content);
         var responseString = await response.Content.ReadAsStringAsync();
-        print(responseString);
+        var id = int.Parse(responseString);
+
+        PostColorRanges(_colorRanges, id);
     }
 
-    private async void PostColorRanges(List<ColorRange> colorRanges)
+    private async void PostColorRanges(List<ColorRange> colorRanges, int pickedColorId)
     {
         foreach (var colorRange in colorRanges)
         {
+            colorRange.MainColorId = pickedColorId;
             var json = JsonUtility.ToJson(colorRange);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("https://localhost:7052/api/color_range", content);
             var responseString = await response.Content.ReadAsStringAsync();
-            print(responseString);
         }
     }
 }

@@ -279,7 +279,7 @@ public class MainMenu : MonoBehaviour
             languages.Add(newLanguage);
         }
 
-        PickedColor pickedColor = new PickedColor(_gridGenerator.TargetColor.Value, selectedVoxel.GetColor(), _user.Id);
+        PickedColor pickedColor = new PickedColor(_gridGenerator.TargetColor.value, selectedVoxel.GetColor(), _user.Id);
        
         List<ColorRange> colorRanges = new List<ColorRange>();
         foreach (var voxel in voxelRanges)
