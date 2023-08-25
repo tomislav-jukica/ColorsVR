@@ -17,9 +17,14 @@ public class ColorVoxel : MonoBehaviour
 
     private void Update()
     {
-        if(IsSelected && !_generator.RangesPicked)
+        if (IsSelected && !_generator.RangesPicked)
         {
-            _renderer.enabled = false;
+            //_renderer.enabled = false;
+            transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        }
+        else
+        {
+            //transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
         }
     }
 
@@ -41,7 +46,7 @@ public class ColorVoxel : MonoBehaviour
     }
 
     private void OnTriggerStay(Collider other)
-    {   
+    {
         if (other.CompareTag("RightHand") && _generator.ClosestVoxel != this)
         {
             _renderer.enabled = false;
@@ -57,7 +62,7 @@ public class ColorVoxel : MonoBehaviour
     }
 
     public void ToggleVisibility(bool isVisible)
-    {        
+    {
         _renderer.enabled = isVisible;
     }
 

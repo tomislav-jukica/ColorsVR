@@ -1,6 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+public enum VoxelPosition
+{
+    CORNER,
+    SIDE,
+    INSIDE
+}
 
 public class GridGenerator : MonoBehaviour
 {
@@ -25,6 +33,7 @@ public class GridGenerator : MonoBehaviour
     public ColorVoxel ClosestVoxel { get => _closestVoxel; }
 
     private bool _onCooldown = false;
+    private int _voxelsCollected = -1;
 
     public bool RangesPicked = false;
 
@@ -63,6 +72,9 @@ public class GridGenerator : MonoBehaviour
 
     public void OnVoxelSelected(ColorVoxel voxel)
     {
+        if (_onCooldown) return;
+        StartCoroutine(CooldownCoroutine());
+
         if (_stage == 0 && _selectedVoxel == null)
         {
             _selectedVoxel = _closestVoxel;
@@ -76,41 +88,106 @@ public class GridGenerator : MonoBehaviour
             _selectedVoxel.ToggleVisibility(true);
             _colorConfirmUI.gameObject.SetActive(true);
         }
-        else if (_stage == 1 && !_onCooldown)
+        else if (_stage == 1)
         {
             _closestVoxel.IsSelected = true;
             //_closestVoxel.gameObject.SetActive(false);
             _voxelRanges.Add(_closestVoxel);
-            StartCoroutine(CooldownCoroutine());
-            if (_voxelRanges.Count == 4)
+
+            switch (GetSelectedVoxelPosition())
             {
-                _colorConfirmUI.gameObject.SetActive(true);
-                for (int i = 0; i < _voxels.Count; i++)
-                {
-                    var success = _voxelRanges.Find(x => x.gameObject == _voxels[i]);
-                    if (success == null)
-                    {
-                        _voxels[i].gameObject.SetActive(false);
-                    }
-                    else
-                    {
-                        success.ToggleVisibility(true);
-                    }
-                }
-                RangesPicked = true;
-                _stage = 2;
-                _colorConfirmUI.ShowUI(_stage);
+                case VoxelPosition.CORNER:
+                    if (_voxelRanges.Count == 2) { ShowPickedRanges(); _voxelsCollected = 2; }
+                    break;
+                case VoxelPosition.SIDE:
+                    if (_voxelRanges.Count == 3) { ShowPickedRanges(); _voxelsCollected = 3; }
+                    break;
+                case VoxelPosition.INSIDE:
+                    if (_voxelRanges.Count == 4) { ShowPickedRanges(); _voxelsCollected = 4; }
+                    break;
             }
         }
+        else if (_stage == 2)
+        {
+            _closestVoxel.IsSelected = true;
+            //_closestVoxel.gameObject.SetActive(false);
+            _voxelRanges.Add(_closestVoxel);
+
+            if (_selectedVoxel.Position.z == 0 || _selectedVoxel.Position.z == 9)
+            {
+                if (_voxelRanges.Count == _voxelsCollected + 1)
+                {
+                    _colorConfirmUI.gameObject.SetActive(true);
+                    _stage = 3;
+                    _colorConfirmUI.ShowUI(_stage);
+                    ToggleCubeVisibilty(false);
+                    _mainMenu.SendToDatabase(_selectedVoxel, _voxelRanges);
+                }
+            }
+            else
+            {
+                if (_voxelRanges.Count == _voxelsCollected + 2)
+                {
+                    _colorConfirmUI.gameObject.SetActive(true);
+                    _stage = 3;
+                    _colorConfirmUI.ShowUI(_stage);
+                    ToggleCubeVisibilty(false);
+                    _mainMenu.SendToDatabase(_selectedVoxel, _voxelRanges);
+
+                }
+            }
+
+        }
+    }
+
+
+    private VoxelPosition GetSelectedVoxelPosition()//TODO don't hardcode
+    {
+        bool xPos = false;
+        bool yPos = false;
+
+        if (_selectedVoxel.Position.x == 0 || _selectedVoxel.Position.x == 9)
+        {
+            xPos = true;
+        }
+
+        if (_selectedVoxel.Position.y == 0 || _selectedVoxel.Position.y == 9)
+        {
+            yPos = true;
+        }
+
+        if (xPos && yPos) return VoxelPosition.CORNER;
+        else if (xPos || yPos) return VoxelPosition.SIDE;
+        else return VoxelPosition.INSIDE;
+    }
+
+    private void ShowPickedRanges()
+    {
+        _colorConfirmUI.gameObject.SetActive(true);
+        for (int i = 0; i < _voxels.Count; i++)
+        {
+            var success = _voxelRanges.Find(x => x.gameObject == _voxels[i]);
+            if (success == null)
+            {
+                _voxels[i].gameObject.SetActive(false);
+            }
+            else
+            {
+                success.ToggleVisibility(true);
+            }
+        }
+        _stage = 2;
+        _colorConfirmUI.ShowUI(_stage);
     }
 
     private IEnumerator CooldownCoroutine()
     {
+        _onCooldown = true;
         yield return new WaitForSeconds(0.1f);
         _onCooldown = false;
     }
 
-    public void OnVoxelConfirmed()
+    public void OnVoxelConfirmed() //confirmed 1 voxel
     {
         _stage = 1;
         _colorConfirmUI.ShowUI(_stage);
@@ -126,7 +203,22 @@ public class GridGenerator : MonoBehaviour
 
     public void ConfirmRange()
     {
-        _mainMenu.SendToDatabase(_selectedVoxel, _voxelRanges);
+        if (_stage == 2)
+        {
+            _colorConfirmUI.gameObject.SetActive(false);
+            ShowDepth();
+        }
+    }
+
+    private void ShowDepth()
+    {
+        for (int i = 0; i < _voxels.Count; i++)
+        {
+            if (_voxels[i].Position.x == _selectedVoxel.Position.x && _voxels[i].Position.y == _selectedVoxel.Position.y)
+            {
+                _voxels[i].gameObject.SetActive(true);
+            }
+        }
     }
 
     public void CancelRange()
@@ -138,7 +230,7 @@ public class GridGenerator : MonoBehaviour
         _stage = 1;
         _voxelRanges.Clear();
         RangesPicked = false;
-        ToggleCubeVisibilty(true);
+        ToggleCubeVisibilty(true, true);
     }
 
     public void ToggleCubeVisibilty(bool isVisible, bool stage2 = false)
@@ -147,7 +239,7 @@ public class GridGenerator : MonoBehaviour
         {
             for (int i = 0; i < _voxels.Count; i++)
             {
-                if ((_voxels[i].Position.x == _selectedVoxel.Position.x && _voxels[i].Position.z == _selectedVoxel.Position.z) || 
+                if ((_voxels[i].Position.x == _selectedVoxel.Position.x && _voxels[i].Position.z == _selectedVoxel.Position.z) ||
                     (_voxels[i].Position.y == _selectedVoxel.Position.y && _voxels[i].Position.z == _selectedVoxel.Position.z))
                 {
                     _voxels[i].gameObject.SetActive(isVisible);
@@ -197,5 +289,27 @@ public class GridGenerator : MonoBehaviour
         }
         _closestVoxel.transform.localScale = new(0.075f, 0.075f, 0.075f);
         _closestVoxel.ToggleVisibility(true);
+    }
+
+    internal void Restart()
+    {
+        _voxels = new();
+        _selectedVoxel = null;
+        _voxelRanges = new();
+        _stage = 0;
+        _closestVoxel = null;
+        _voxelsInRange = new();
+        _onCooldown = false;
+        _voxelsCollected = -1;
+        RangesPicked = false;
+        TargetColor = null;
+
+        _colorConfirmUI.gameObject.SetActive(false);
+        _mainMenu.Restart();
+    }
+
+    internal void DoAnotherOne()
+    {
+        throw new NotImplementedException();
     }
 }

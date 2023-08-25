@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -14,13 +14,15 @@ public class ColorConfirmUI : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI _buttonText;
     [SerializeField] private TextMeshProUGUI _stage2Text;
+    [SerializeField] private TextMeshProUGUI _stage3Text;
 
     private void OnEnable()
     {
         _gridController.CanMove = false;
         _buttonText.text = "Da, to je " + _gridGenerator.TargetColor.name;
-        _stage2Text.text = $"Molimo odaberite raspon boja koje pokriva tako da odaberete najudaljenije nijanse koje se jo� uvijek mogu nazvati {_gridGenerator.TargetColor.name}. " +
-            $"Odaberi 4 najudaljenije nijanse u sva 4 smjera � lijevo, desno, gore i dolje.";
+        _stage2Text.text = $"Molimo odaberite raspon boja koje pokriva tako da odaberete najudaljenije nijanse koje se još uvijek mogu nazvati {_gridGenerator.TargetColor.name}. " +
+            $"Odaberi 4 najudaljenije nijanse u sva 4 smjera – lijevo, desno, gore i dolje.";
+        _stage3Text.text = $"Još jedan korak i raspon je određen. Odaberi dvije najudaljenije točke za {_gridGenerator.TargetColor.name} u dva ponuđena smjera";
     }
 
     private void OnDisable()
@@ -38,7 +40,7 @@ public class ColorConfirmUI : MonoBehaviour
         _gridGenerator.OnVoxelCanceled();
     }
 
-    public void OnSecondStageStart()
+    public void OnSecondStageStart() //start second picking phase
     {
         _stage1.SetActive(false);
         gameObject.SetActive(false);
@@ -57,12 +59,12 @@ public class ColorConfirmUI : MonoBehaviour
 
     public void OnFinishSession()
     {
-
+        _gridGenerator.Restart();
     }
 
     public void OnDoAnthorOne()
     {
-
+        _gridGenerator.DoAnotherOne();
     }
 
     public void ShowUI(int stage)

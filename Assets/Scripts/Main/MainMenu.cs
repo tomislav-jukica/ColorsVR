@@ -223,7 +223,7 @@ public class MainMenu : MonoBehaviour
 
     public void OnConfirm()
     {
-        if(_specialName.activeSelf || _aboutUs.activeSelf || _howToUse.activeSelf)
+        if (_specialName.activeSelf || _aboutUs.activeSelf || _howToUse.activeSelf)
         {
             _specialName.SetActive(false);
             _aboutUs.SetActive(false);
@@ -234,7 +234,7 @@ public class MainMenu : MonoBehaviour
 
         if (!Validate()) return;
 
-        if(_page == 0)
+        if (_page == 0)
         {
             _page0.SetActive(false);
             _page1.SetActive(true);
@@ -299,14 +299,14 @@ public class MainMenu : MonoBehaviour
         }
 
         PickedColor pickedColor = new PickedColor(_gridGenerator.TargetColor.value, selectedVoxel.GetColor(), _user.Id);
-       
+
         List<ColorRange> colorRanges = new List<ColorRange>();
         foreach (var voxel in voxelRanges)
         {
             ColorRange colorRange = new ColorRange(voxel.GetColor(), pickedColor.Id);
             colorRanges.Add(colorRange);
         }
-       
+
         _databaseManager.SendData(_user, languages, pickedColor, colorRanges);
     }
 
@@ -331,5 +331,26 @@ public class MainMenu : MonoBehaviour
     {
         _specialName.SetActive(true);
         _page6.SetActive(false);
+    }
+
+    public void Restart()
+    {
+        _sexSelected = -1;
+        _age = 0;
+        _workStatus = 0;
+        _education = 0;
+        _work = 0;
+        _languages = new();
+        _health = 0;
+        _workScreenTime = 0;
+        _soloScreenTime = 0;
+        _nature = 0;
+        _location = 0;
+        _population = 0;
+        _page = 0;
+        _user = null;
+
+        gameObject.SetActive(true);
+        _page0.SetActive(true);
     }
 }
