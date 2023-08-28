@@ -31,6 +31,7 @@ public class GridGenerator : MonoBehaviour
     private List<ColorVoxel> _voxelsInRange = new();
 
     public ColorVoxel ClosestVoxel { get => _closestVoxel; }
+    public bool IsEndStage { get => _stage == 3; }
 
     private bool _onCooldown = false;
     private int _voxelsCollected = -1;
@@ -38,6 +39,15 @@ public class GridGenerator : MonoBehaviour
     public bool RangesPicked = false;
 
     public ColorAPI.Color TargetColor;
+
+    private GridController _controller;
+    private List<ColorVoxel> _totalVoxels = new();
+
+
+    private void Awake()
+    {
+        _controller = GetComponentInParent<GridController>();
+    }
 
     private void Start()
     {
@@ -51,21 +61,31 @@ public class GridGenerator : MonoBehaviour
 
     public void GenerateGrid()
     {
-        _mainMenu.CreateUser();
-        for (int i = 0; i < _gridX; i++)
+        if (_voxels.Count == 0)
         {
-            for (int j = 0; j < _gridY; j++)
+            _mainMenu.CreateUser();
+            for (int i = 0; i < _gridX; i++)
             {
-                for (int k = 0; k < _gridZ; k++)
+                for (int j = 0; j < _gridY; j++)
                 {
-                    Vector3 position = new(transform.position.x + _spaceBetween * i, transform.position.y + _spaceBetween * j, transform.position.z + _spaceBetween * k);
-                    var cube = Instantiate(_prefab, position, Quaternion.identity, transform);
-                    var renderer = cube.GetComponent<MeshRenderer>();
-                    renderer.material.color = new Color(1f - (1f / _gridX) * i, 1f - (1f / _gridY) * j, 1f - (1f / _gridZ) * k);
-                    ColorVoxel colorVoxel = cube.GetComponent<ColorVoxel>();
-                    colorVoxel.Position = new(i, j, k);
-                    _voxels.Add(colorVoxel);
+                    for (int k = 0; k < _gridZ; k++)
+                    {
+                        Vector3 position = new(transform.position.x + _spaceBetween * i, transform.position.y + _spaceBetween * j, transform.position.z + _spaceBetween * k);
+                        var cube = Instantiate(_prefab, position, Quaternion.identity, transform);
+                        var renderer = cube.GetComponent<MeshRenderer>();
+                        renderer.material.color = new Color(1f - (1f / _gridX) * i, 1f - (1f / _gridY) * j, 1f - (1f / _gridZ) * k);
+                        ColorVoxel colorVoxel = cube.GetComponent<ColorVoxel>();
+                        colorVoxel.Position = new(i, j, k);
+                        _voxels.Add(colorVoxel);
+                    }
                 }
+            }
+        } else
+        {
+            foreach (var voxel in _voxels)
+            {
+                voxel.ToggleVisibility(true);
+                voxel.gameObject.SetActive(true);
             }
         }
     }
@@ -117,10 +137,11 @@ public class GridGenerator : MonoBehaviour
             {
                 if (_voxelRanges.Count == _voxelsCollected + 1)
                 {
-                    _colorConfirmUI.gameObject.SetActive(true);
                     _stage = 3;
+                    _totalVoxels.AddRange(_voxelRanges);
+                    _colorConfirmUI.gameObject.SetActive(true);
                     _colorConfirmUI.ShowUI(_stage);
-                    ToggleCubeVisibilty(false);
+                    //ToggleCubeVisibilty(false);
                     _mainMenu.SendToDatabase(_selectedVoxel, _voxelRanges);
                 }
             }
@@ -128,15 +149,15 @@ public class GridGenerator : MonoBehaviour
             {
                 if (_voxelRanges.Count == _voxelsCollected + 2)
                 {
-                    _colorConfirmUI.gameObject.SetActive(true);
                     _stage = 3;
+                    _totalVoxels.AddRange(_voxelRanges);
+                    _colorConfirmUI.gameObject.SetActive(true);
                     _colorConfirmUI.ShowUI(_stage);
-                    ToggleCubeVisibilty(false);
+                    //ToggleCubeVisibilty(false);
                     _mainMenu.SendToDatabase(_selectedVoxel, _voxelRanges);
 
                 }
             }
-
         }
     }
 
@@ -303,6 +324,7 @@ public class GridGenerator : MonoBehaviour
         _voxelsCollected = -1;
         RangesPicked = false;
         TargetColor = null;
+        _totalVoxels = new();
 
         _colorConfirmUI.gameObject.SetActive(false);
         _mainMenu.Restart();
@@ -310,6 +332,39 @@ public class GridGenerator : MonoBehaviour
 
     internal void DoAnotherOne()
     {
-        throw new NotImplementedException();
+        //_voxels = new();
+        _selectedVoxel = null;
+        _voxelRanges = new();
+        _stage = 0;
+        _closestVoxel = null;
+        _voxelsInRange = new();
+        _onCooldown = false;
+        _voxelsCollected = -1;
+        RangesPicked = false;
+        TargetColor = null;
+
+        _colorConfirmUI.gameObject.SetActive(false);
+        _colorConfirmUI.DoAnotherOne();
+        //_controller.ResetRotation();
+        _mainMenu.DoAnotherOne();
+    }
+
+    internal void ShowAllRanges()
+    {
+        ToggleCubeVisibilty(true);
+
+        foreach (var voxel in _voxels)
+        {
+            voxel.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+            voxel.IsSelected = false;
+            if (_totalVoxels.Contains(voxel))
+            {
+                voxel.ToggleVisibility(true, true);
+            }
+            else
+            {
+                voxel.ToggleVisibility(false, true);
+            }
+        }
     }
 }

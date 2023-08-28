@@ -46,4 +46,10 @@ public class GridController : MonoBehaviour
         _isLastRotationSet = false;
         _rotating = false;
     }
+
+    public void ResetRotation()
+    {
+        transform.eulerAngles = Vector3.zero;
+        _currentRotation = Vector3.zero;
+    }
 }

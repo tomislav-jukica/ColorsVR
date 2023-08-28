@@ -17,7 +17,7 @@ public class ColorVoxel : MonoBehaviour
 
     private void Update()
     {
-        if (IsSelected && !_generator.RangesPicked)
+        if (IsSelected && !_generator.RangesPicked && !_generator.IsEndStage)
         {
             //_renderer.enabled = false;
             transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
@@ -47,7 +47,7 @@ public class ColorVoxel : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("RightHand") && _generator.ClosestVoxel != this)
+        if (other.CompareTag("RightHand") && _generator.ClosestVoxel != this && !_generator.IsEndStage)
         {
             _renderer.enabled = false;
         }
@@ -55,15 +55,23 @@ public class ColorVoxel : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("RightHand"))
+        if (other.CompareTag("RightHand") && !_generator.IsEndStage)
         {
             _renderer.enabled = true;
         }
     }
 
-    public void ToggleVisibility(bool isVisible)
+    public void ToggleVisibility(bool isVisible, bool isEndStage = false)
     {
-        _renderer.enabled = isVisible;
+        if (!_generator.IsEndStage)
+        {
+            _renderer.enabled = isVisible;
+        }
+
+        if(isEndStage)
+        {
+            _renderer.enabled = isVisible;
+        }
     }
 
     public string GetColor()

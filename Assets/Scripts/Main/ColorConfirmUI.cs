@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -74,24 +75,33 @@ public class ColorConfirmUI : MonoBehaviour
             _stage0.SetActive(true);
             _stage1.SetActive(false);
             _stage2.SetActive(false);
+            _stage3.SetActive(false);
         }
         else if (stage == 1)
         {
             _stage0.SetActive(false);
             _stage1.SetActive(true);
             _stage2.SetActive(false);
+            _stage3.SetActive(false);
         }
         else if (stage == 2)
         {
             _stage0.SetActive(false);
             _stage1.SetActive(false);
             _stage2.SetActive(true);
+            _stage3.SetActive(false);
         } else if (stage == 3)
         {
             _stage0.SetActive(false);
             _stage1.SetActive(false);
             _stage2.SetActive(false);
             _stage3.SetActive(true);
+            _gridGenerator.ShowAllRanges();
         }
+    }
+
+    internal void DoAnotherOne()
+    {
+        ShowUI(0);
     }
 }

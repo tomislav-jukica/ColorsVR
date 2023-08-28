@@ -312,7 +312,10 @@ public class MainMenu : MonoBehaviour
 
     public void CreateUser()
     {
-        _user = new User(_sexSelected, _age, _workStatus, _education, _work, _health, _workScreenTime, _soloScreenTime, _nature, _location, _population);
+        if (_user == null)
+        {
+            _user = new User(_sexSelected, _age, _workStatus, _education, _work, _health, _workScreenTime, _soloScreenTime, _nature, _location, _population);
+        }
     }
 
     public void ShowAboutUs()
@@ -352,5 +355,10 @@ public class MainMenu : MonoBehaviour
 
         gameObject.SetActive(true);
         _page0.SetActive(true);
+    }
+
+    internal void DoAnotherOne()
+    {
+        gameObject.SetActive(true);
     }
 }
