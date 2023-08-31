@@ -8,6 +8,8 @@ public class GridController : MonoBehaviour
     public ActionBasedController rightHand;
     [SerializeField] private float _maxSpeed;
     public bool CanMove = true;
+    public Vector3 StartPosition;
+    public Vector3 FinishPosition;
 
     private Vector3 _currentRotation;
     private Vector3 _lastRotation;
@@ -51,5 +53,17 @@ public class GridController : MonoBehaviour
     {
         transform.eulerAngles = Vector3.zero;
         _currentRotation = Vector3.zero;
+    }
+
+    public void SetFinishPosition()
+    {
+        transform.position = FinishPosition;
+        ResetRotation();
+    }
+
+    public void SetStartPosition()
+    {
+        transform.position = StartPosition;
+        ResetRotation();
     }
 }

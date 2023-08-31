@@ -13166,6 +13166,8 @@ MonoBehaviour:
   rightHand: {fileID: 9014170785329995299}
   _maxSpeed: 10
   CanMove: 1
+  StartPosition: {x: 0, y: 1.25, z: 0}
+  FinishPosition: {x: -1.078, y: 2.246, z: -0.841}
 --- !u!1001 &1258470700
 PrefabInstance:
   m_ObjectHideFlags: 0

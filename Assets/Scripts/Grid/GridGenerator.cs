@@ -80,7 +80,8 @@ public class GridGenerator : MonoBehaviour
                     }
                 }
             }
-        } else
+        }
+        else
         {
             foreach (var voxel in _voxels)
             {
@@ -88,6 +89,7 @@ public class GridGenerator : MonoBehaviour
                 voxel.gameObject.SetActive(true);
             }
         }
+        _controller.SetStartPosition();
     }
 
     public void OnVoxelSelected(ColorVoxel voxel)
@@ -107,6 +109,7 @@ public class GridGenerator : MonoBehaviour
             }
             _selectedVoxel.ToggleVisibility(true);
             _colorConfirmUI.gameObject.SetActive(true);
+            _controller.SetStartPosition();
         }
         else if (_stage == 1)
         {
@@ -117,13 +120,25 @@ public class GridGenerator : MonoBehaviour
             switch (GetSelectedVoxelPosition())
             {
                 case VoxelPosition.CORNER:
-                    if (_voxelRanges.Count == 2) { ShowPickedRanges(); _voxelsCollected = 2; }
+                    if (_voxelRanges.Count == 2)
+                    {
+                        ShowPickedRanges();
+                        _voxelsCollected = 2;
+                    }
                     break;
                 case VoxelPosition.SIDE:
-                    if (_voxelRanges.Count == 3) { ShowPickedRanges(); _voxelsCollected = 3; }
+                    if (_voxelRanges.Count == 3)
+                    {
+                        ShowPickedRanges();
+                        _voxelsCollected = 3;
+                    }
                     break;
                 case VoxelPosition.INSIDE:
-                    if (_voxelRanges.Count == 4) { ShowPickedRanges(); _voxelsCollected = 4; }
+                    if (_voxelRanges.Count == 4)
+                    {
+                        ShowPickedRanges();
+                        _voxelsCollected = 4;
+                    }
                     break;
             }
         }
@@ -141,6 +156,7 @@ public class GridGenerator : MonoBehaviour
                     _totalVoxels.AddRange(_voxelRanges);
                     _colorConfirmUI.gameObject.SetActive(true);
                     _colorConfirmUI.ShowUI(_stage);
+                    _controller.SetFinishPosition();
                     //ToggleCubeVisibilty(false);
                     _mainMenu.SendToDatabase(_selectedVoxel, _voxelRanges);
                 }
@@ -153,6 +169,7 @@ public class GridGenerator : MonoBehaviour
                     _totalVoxels.AddRange(_voxelRanges);
                     _colorConfirmUI.gameObject.SetActive(true);
                     _colorConfirmUI.ShowUI(_stage);
+                    _controller.SetFinishPosition();
                     //ToggleCubeVisibilty(false);
                     _mainMenu.SendToDatabase(_selectedVoxel, _voxelRanges);
 
@@ -199,6 +216,7 @@ public class GridGenerator : MonoBehaviour
         }
         _stage = 2;
         _colorConfirmUI.ShowUI(_stage);
+        _controller.SetStartPosition();
     }
 
     private IEnumerator CooldownCoroutine()
