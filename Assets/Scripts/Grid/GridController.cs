@@ -63,25 +63,6 @@ public class GridController : MonoBehaviour
             _isHandStartSet = false;
             _handStart = Vector3.zero;
         }
-
-
-
-
-        //if (!_isLastRotationSet)
-        //{
-        //    offset = rightHand.transform.eulerAngles;
-        //    _isLastRotationSet = true;
-        //}
-
-        //if (_currentRotation != rightHand.transform.eulerAngles)
-        //{
-        //    transform.eulerAngles -= rightHand.transform.eulerAngles - offset;
-        //    _currentRotation = rightHand.transform.eulerAngles;
-        //}
-
-        //offset = rightHand.transform.eulerAngles;
-
-
     }
 
 

@@ -355,6 +355,7 @@ public class MainMenu : MonoBehaviour
 
         gameObject.SetActive(true);
         _page0.SetActive(true);
+        _page6.SetActive(false);
     }
 
     internal void DoAnotherOne()
