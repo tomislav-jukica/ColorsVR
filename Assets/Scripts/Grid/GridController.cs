@@ -19,34 +19,54 @@ public class GridController : MonoBehaviour
     private Vector3 _handStart = Vector3.zero;
 
     Vector3 offset;
+    float x, y, z = 0f;
     private void Update()
     {
         if (_rotating && CanMove)
         {
             if (_isHandStartSet)
             {
-                offset = new(0, _handStart.y - rightHand.transform.eulerAngles.y, 0);
+                //print($"{_handStart.x}(start) - {rightHand.transform.eulerAngles.x}(hand) = {_handStart.x - rightHand.transform.eulerAngles.x}");
+                offset = new(_handStart.x - rightHand.transform.eulerAngles.x, _handStart.y - rightHand.transform.eulerAngles.y, 0);
 
-                _handRotation = new Vector3(0, offset.y, 0); //150 | 0 | 10
+                _handRotation = new Vector3(offset.x, offset.y, 0);
 
                 if (_handRotation != Vector3.zero)
                 {
-                    print(_handRotation.y);
-                    transform.eulerAngles = new Vector3(0, _lastRotation.y + _handRotation.y, 0); //150 + 0 | skiped | 150 + 10         
+                    x = _lastRotation.x - _handRotation.x;
+                    if (x > 360)
+                    {
+                        x -= 360;
+                    }
+                    else if (x < 0)
+                    {
+                        x += 360;
+                    }
+                    y = _lastRotation.y + _handRotation.y;
+                    //if (x < 0)
+                    //{
+                    //    x += 360;
+                    //}
+                    //if (y < 0)
+                    //{
+                    //    y += 360;
+                    //}
+                    transform.rotation = Quaternion.Euler(x, y, 0);
+
                 }
             }
             else
             {
                 _isHandStartSet = true;
-                _handStart = new(0, rightHand.transform.eulerAngles.y, 0);
+                _handStart = new(rightHand.transform.eulerAngles.x, rightHand.transform.eulerAngles.y, 0);
             }
 
-            
+
 
         }
         else
         {
-            _lastRotation = transform.eulerAngles;
+            _lastRotation = new(x,y,z);
 
             _isHandStartSet = false;
             _handStart = Vector3.zero;
