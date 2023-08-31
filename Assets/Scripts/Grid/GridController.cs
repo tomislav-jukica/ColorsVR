@@ -26,10 +26,9 @@ public class GridController : MonoBehaviour
         {
             if (_isHandStartSet)
             {
-                //print($"{_handStart.x}(start) - {rightHand.transform.eulerAngles.x}(hand) = {_handStart.x - rightHand.transform.eulerAngles.x}");
                 offset = new(_handStart.x - rightHand.transform.eulerAngles.x, _handStart.y - rightHand.transform.eulerAngles.y, 0);
 
-                _handRotation = new Vector3(offset.x, offset.y, 0);
+                _handRotation = new Vector3(offset.x, offset.y, offset.z);
 
                 if (_handRotation != Vector3.zero)
                 {
@@ -43,22 +42,15 @@ public class GridController : MonoBehaviour
                         x += 360;
                     }
                     y = _lastRotation.y + _handRotation.y;
-                    //if (x < 0)
-                    //{
-                    //    x += 360;
-                    //}
-                    //if (y < 0)
-                    //{
-                    //    y += 360;
-                    //}
-                    transform.rotation = Quaternion.Euler(x, y, 0);
+
+                    transform.rotation = Quaternion.Euler(x, y, z);
 
                 }
             }
             else
             {
                 _isHandStartSet = true;
-                _handStart = new(rightHand.transform.eulerAngles.x, rightHand.transform.eulerAngles.y, 0);
+                _handStart = new(rightHand.transform.eulerAngles.x, rightHand.transform.eulerAngles.y, rightHand.transform.eulerAngles.z);
             }
 
 
