@@ -84,13 +84,14 @@ public class ColorConfirmUI : MonoBehaviour
             _stage2.SetActive(false);
             _stage3.SetActive(false);
         }
-        else if (stage == 2)
-        {
-            _stage0.SetActive(false);
-            _stage1.SetActive(false);
-            _stage2.SetActive(true);
-            _stage3.SetActive(false);
-        } else if (stage == 3)
+        //else if (stage == 2)
+        //{
+        //    _stage0.SetActive(false);
+        //    _stage1.SetActive(false);
+        //    _stage2.SetActive(true);
+        //    _stage3.SetActive(false);
+        //} 
+        else if (/*stage == 3*/ stage == 2)
         {
             _stage0.SetActive(false);
             _stage1.SetActive(false);

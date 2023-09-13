@@ -17,15 +17,39 @@ public class ColorVoxel : MonoBehaviour
 
     private void Update()
     {
-        if (IsSelected && !_generator.RangesPicked && !_generator.IsEndStage)
+        if(_generator.Stage == 0)
         {
-            //_renderer.enabled = false;
-            transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+            if(_generator.ClosestVoxel != this)
+            {
+                transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+            }
         }
-        else
+        //if (IsSelected && !_generator.RangesPicked && _generator.Stage != 2)
+        //{
+        //    //_renderer.enabled = false;
+        //    transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        //}
+        //else
+        //{
+        //    //transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+        //}
+
+        if (_generator.Stage == 1)
         {
-            //transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+            ToggleVisibility(_generator.ClosestVoxel == this);
+
         }
+
+        if(_generator.Stage == 2)
+        {
+            ToggleVisibility(false);
+        }
+
+        if (_generator.SelectedVoxel == this || _generator.VoxelRanges.Contains(this))
+        {
+            ToggleVisibility(true);
+        }
+
     }
 
     public void SelectEnter(SelectEnterEventArgs args)
@@ -68,7 +92,7 @@ public class ColorVoxel : MonoBehaviour
             _renderer.enabled = isVisible;
         }
 
-        if(isEndStage)
+        if (isEndStage)
         {
             _renderer.enabled = isVisible;
         }
