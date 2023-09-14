@@ -29,7 +29,7 @@ public class ColorPickerUI : MonoBehaviour
 
     private void GetColors()
     {
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(String.Format("https://localhost:7052/api/color"));
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(String.Format("https://game-chuck.com/rijekavr/getcolors.php"));
         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
         StreamReader reader = new StreamReader(response.GetResponseStream());
         string jsonResponse = reader.ReadToEnd();

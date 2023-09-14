@@ -28,7 +28,20 @@ public class DatabaseManager : MonoBehaviour
     {
         var json = JsonUtility.ToJson(user);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("https://localhost:7052/api/user", content);
+         string requestString = $"https://game-chuck.com/rijekavr/users.php?" +
+            $"Sex={user.Sex}" +
+            $"&Age={user.Age}" +
+            $"&WorkStatus={user.WorkStatus}" +
+            $"&Education={user.Education}" +
+            $"&Profession={user.Profession}" +
+            $"&Eyesight={user.Eyesight}" +
+            $"&WorkScreen={user.WorkScreen}" +
+            $"&SoloScreen={user.SoloScreen}" +
+            $"&Nature={user.Nature}" +
+            $"&Location={user.Location}" +
+            $"&Population={user.Population}";
+
+        var response = await _client.PostAsync(requestString, content);
         var responseString = await response.Content.ReadAsStringAsync();
         var id = int.Parse(responseString);
         
@@ -43,7 +56,11 @@ public class DatabaseManager : MonoBehaviour
             language.UserId = userId;
             var json = JsonUtility.ToJson(language);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync("https://localhost:7052/api/language", content);
+            string requestString = $"https://game-chuck.com/rijekavr/languages.php?" +
+                $"Speak={language.Speak}" +
+                $"&UserId={language.UserId}" +
+                $"&Value={language.Value}";
+            var response = await _client.PostAsync(requestString, content);
             var responseString = await response.Content.ReadAsStringAsync();
         }
     }
@@ -53,7 +70,11 @@ public class DatabaseManager : MonoBehaviour
         pickedColor.UserId = userId;
         var json = JsonUtility.ToJson(pickedColor);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await _client.PostAsync("https://localhost:7052/api/picked_color", content);
+        string requestString = $"https://game-chuck.com/rijekavr/pickedcolors.php?" +
+            $"SelectedColor='{pickedColor.SelectedColor}'" +
+            $"&TargetColor='{pickedColor.TargetColor}'" +
+            $"&UserId={userId}";
+        var response = await _client.PostAsync(requestString, content);
         var responseString = await response.Content.ReadAsStringAsync();
         var id = int.Parse(responseString);
 
@@ -67,7 +88,10 @@ public class DatabaseManager : MonoBehaviour
             colorRange.MainColorId = pickedColorId;
             var json = JsonUtility.ToJson(colorRange);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync("https://localhost:7052/api/color_range", content);
+            string requestString = $"https://game-chuck.com/rijekavr/colorranges.php?" +
+                $"MainColorId={colorRange.MainColorId}" +
+                $"&Value='{colorRange.Value}'";
+            var response = await _client.PostAsync(requestString, content);
             var responseString = await response.Content.ReadAsStringAsync();
         }
     }
