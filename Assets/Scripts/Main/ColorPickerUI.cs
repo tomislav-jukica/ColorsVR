@@ -12,6 +12,8 @@ public class ColorPickerUI : MonoBehaviour
     private ColorAPI.Color[] _colors;
     private ColorAPI.Color _selectedColor = null;
 
+    public GameObject Poruka;
+
     private void Start()
     {
         GetColors();
@@ -23,8 +25,7 @@ public class ColorPickerUI : MonoBehaviour
         _selectedColor = color;
         _gridGenerator.TargetColor = color;
         _gridGenerator.GenerateGrid();
-        transform.parent.gameObject.SetActive(false);
-        
+        transform.parent.gameObject.SetActive(false);              
     }
 
     private void GetColors()
@@ -34,6 +35,7 @@ public class ColorPickerUI : MonoBehaviour
         StreamReader reader = new StreamReader(response.GetResponseStream());
         string jsonResponse = reader.ReadToEnd();
         _colors = JsonHelper.GetJsonArray<ColorAPI.Color>(jsonResponse);
+        Poruka.SetActive(true);
     }
 
     private void PopulateGrid()

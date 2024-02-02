@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ColorConfirmUI : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class ColorConfirmUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _buttonText;
     [SerializeField] private TextMeshProUGUI _stage2Text;
     [SerializeField] private TextMeshProUGUI _stage3Text;
+
+    public GameObject Poruka1;
+    public GameObject Poruka2;
 
     private void OnEnable()
     {
@@ -76,6 +80,8 @@ public class ColorConfirmUI : MonoBehaviour
             _stage1.SetActive(false);
             _stage2.SetActive(false);
             _stage3.SetActive(false);
+            Poruka1.SetActive(false);
+            Poruka2.SetActive(true);
         }
         else if (stage == 1)
         {
@@ -83,6 +89,8 @@ public class ColorConfirmUI : MonoBehaviour
             _stage1.SetActive(true);
             _stage2.SetActive(false);
             _stage3.SetActive(false);
+            Poruka1.SetActive(false);
+            Poruka2.SetActive(true);
         }
         else if (stage == 2)
         {
@@ -90,6 +98,8 @@ public class ColorConfirmUI : MonoBehaviour
             _stage1.SetActive(false);
             _stage2.SetActive(true);
             _stage3.SetActive(false);
+            Poruka1.SetActive(false);
+            Poruka2.SetActive(true);
         } else if (stage == 3)
         {
             _stage0.SetActive(false);
@@ -97,6 +107,7 @@ public class ColorConfirmUI : MonoBehaviour
             _stage2.SetActive(false);
             _stage3.SetActive(true);
             _gridGenerator.ShowAllRanges();
+            Poruka2.SetActive(false);
         }
     }
 

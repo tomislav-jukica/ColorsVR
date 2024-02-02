@@ -39,6 +39,7 @@ public class GridGenerator : MonoBehaviour
     public bool RangesPicked = false;
 
     public ColorAPI.Color TargetColor;
+    public ColorVoxel SelectedVoxel { get => _selectedVoxel; }
 
     private GridController _controller;
     private List<ColorVoxel> _totalVoxels = new();
