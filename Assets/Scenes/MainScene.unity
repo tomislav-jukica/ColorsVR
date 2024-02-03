@@ -13776,7 +13776,7 @@ MonoBehaviour:
   rightHand: {fileID: 9014170785329995299}
   _maxSpeed: 10
   CanMove: 1
-  StartPosition: {x: 0, y: 1.25, z: 2.5}
+  StartPosition: {x: 0, y: 2, z: 2.5}
   FinishPosition: {x: 0, y: 2.246, z: 2}
 --- !u!1001 &1258470700
 PrefabInstance:
@@ -17283,7 +17283,7 @@ MonoBehaviour:
   _colorButtonPrefab: {fileID: 7149796930094780022, guid: 9b0e3337bef9a3e44b6d022d1cb6aca7,
     type: 3}
   _colorsParentObject: {fileID: 1046580427}
-  Poruka: {fileID: 0}
+  Poruka: {fileID: 763640538}
 --- !u!114 &1510489994
 MonoBehaviour:
   m_ObjectHideFlags: 0
